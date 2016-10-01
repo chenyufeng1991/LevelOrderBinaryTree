@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -54,6 +55,29 @@ void PreOrder(Node *root)
     PreOrder(root->rChild);
 }
 
+//层序遍历
+void LevelOrder(queue<Node *> &nodeQueue)
+{
+    if (nodeQueue.empty())
+    {
+        return;
+    }
+
+    Node *frontNode = nodeQueue.front();
+    cout << frontNode->element << " ";
+    nodeQueue.pop();
+    if (frontNode->lChild != NULL)
+    {
+        nodeQueue.push(frontNode->lChild);
+    }
+    if (frontNode->rChild != NULL)
+    {
+        nodeQueue.push(frontNode->rChild);
+    }
+
+    LevelOrder(nodeQueue);
+}
+
 int main(int argc, const char * argv[])
 {
     Node *root;
@@ -63,6 +87,13 @@ int main(int argc, const char * argv[])
 
     cout << "先序遍历的结果为：";
     PreOrder(root);
+    cout << endl;
+
+    cout << "层序遍历的结果为：";
+    queue<Node *> Q;
+    Q.push(root);
+    LevelOrder(Q);
+    cout << endl;
 
     return 0;
 }
